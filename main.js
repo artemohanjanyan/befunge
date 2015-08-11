@@ -34,29 +34,130 @@ for (var i = 0; i < 32; ++i) {
 }
 
 var commands = {
-	"<": 1,
-	">": 1,
-	"^": 1,
-	"v": 1,
-	" ": 1,
-	"0": 1,
-	"1": 1,
-	"2": 1,
-	"3": 1,
-	"4": 1,
-	"5": 1,
-	"6": 1,
-	"7": 1,
-	"8": 1,
-	"9": 1
+	" ": {
+		file: " "
+	},
+	"<": {
+		file: "<"
+	},
+	">": {
+		file: ">"
+	},
+	"^": {
+		file: "^"
+	},
+	"v": {
+		file: "v"
+	},
+	"?": {
+		file: "question"
+	},
+
+	"+": {
+		file: "+"
+	},
+	"-": {
+		file: "-"
+	},
+	"*": {
+		file: "*"
+	},
+	"/": {
+		file: "div"
+	},
+	"%": {
+		file: "%"
+	},
+	"!": {
+		file: "!"
+	},
+	"`": {
+		file: "`"
+	},
+
+	"_": {
+		file: "_"
+	},
+	"|": {
+		file: "|"
+	},
+	"\"": {
+		file: "quote"
+	},
+	":": {
+		file: ":"
+	},
+	"\\": {
+		file: "backslash"
+	},
+	"$": {
+		file: "$"
+	},
+	".": {
+		file: "dot"
+	},
+	",": {
+		file: ","
+	},
+	"#": {
+		file: "hash"
+	},
+
+	"g": {
+		file: "g"
+	},
+	"p": {
+		file: "p"
+	},
+	"&": {
+		file: "ampersand"
+	},
+	"~": {
+		file: "tilde"
+	},
+	"@": {
+		file: "@"
+	},
+
+	"0": {
+		file: "0"
+	},
+	"1": {
+		file: "1"
+	},
+	"2": {
+		file: "2"
+	},
+	"3": {
+		file: "3"
+	},
+	"4": {
+		file: "4"
+	},
+	"5": {
+		file: "5"
+	},
+	"6": {
+		file: "6"
+	},
+	"7": {
+		file: "7"
+	},
+	"8": {
+		file: "8"
+	},
+	"9": {
+		file: "9"
+	}
 }
 
 for (var command in commands) {
 	(function(c) {
-		document.getElementById(command).addEventListener("mousedown", function() {
-			console.log(c);
+		console.log(c);
+		document.getElementById(c).addEventListener("mousedown", function() {
+			console.log(commands[c].file);
 			currentCommand = c;
-			currentIcon.src = "icons/" + c + ".png";
+			currentIcon.src = "icons/" + commands[c].file + ".png";
 		});
 	})(command);
 }
