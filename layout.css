@@ -1,0 +1,20 @@
+canvas {
+	width: 640;
+	height: 480;
+
+	background: #DAEB71;
+
+	/* Centering
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-left: -320;
+	margin-top: -240;
+	*/
+
+	position: fixed;
+	top: 95%;
+	left: 50%;
+	margin-left: -320;
+	margin-top: -480;
+}
