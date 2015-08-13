@@ -336,7 +336,6 @@ for (var command in commands) {
 		document.getElementById(c).addEventListener("click", function() {
 			console.log(commands[c].file);
 			currentCommand = c;
-			//currentIcon.src = "icons/" + commands[c].file + ".png";
 		});
 	})(command);
 }
@@ -361,7 +360,7 @@ canvas.addEventListener("click", function(event) {
 });
 
 window.addEventListener("keypress", function(event) {
-	if (isRunning) {
+	if (isRunning || document.getElementById("input") === document.activeElement) {
 		return;
 	}
 
