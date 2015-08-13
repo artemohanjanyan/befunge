@@ -74,7 +74,7 @@ function op(f, argN) {
 		}
 		args = args.reverse();
 		board.push(f.apply(null, args));
-	}
+	};
 }
 
 function boolToInt(b) {
@@ -83,6 +83,12 @@ function boolToInt(b) {
 	} else {
 		return 0;
 	}
+}
+
+function digitPush(d) {
+	return function(board) {
+		board.push(d);
+	};
 }
 
 var commands = {
@@ -233,51 +239,97 @@ var commands = {
 	"g": {
 		file: "g",
 		action: function(board) {
-			//TODO
+			var y = board.pop();
+			var x = board.pop();
+			board.push(board.field[x][y].charCodeAt(0));
 		}
 	},
 	"p": {
-		file: "p"
+		file: "p",
+		action: function(board) {
+			var y = board.pop();
+			var x = board.pop();
+			var value = board.pop();
+			board.field[x][y] = String.fromCharCode(value);
+		}
 	},
 	"&": {
-		file: "ampersand"
+		file: "ampersand",
+		action: function(board) {
+			//TODO
+			if (board.input.length > 0) {
+				while (board.input.length > 0 && board.input.charAt(0) == ' ') {
+					board.input = board.input.slice(1);
+				}
+
+				if (board.input.length == 0) {
+					return;
+				}
+
+				var x = parseInt(board.input);
+				board.push(x);
+				board.input = board.input.slice(x.toString().length);
+			}
+		}
 	},
 	"~": {
-		file: "tilde"
+		file: "tilde",
+		action: function(board) {
+			if (input.length > 0) {
+				board.push(board.input.charCodeAt(0));
+				board.input = board.input.slice(1);
+			}
+		}
 	},
 	"@": {
-		file: "@"
+		file: "@",
+		action: function(board) {
+			board.direction = {
+				x: 0,
+				y: 0
+			}
+		}
 	},
 
 	"0": {
-		file: "0"
+		file: "0",
+		action: digitPush(0)
 	},
 	"1": {
-		file: "1"
+		file: "1",
+		action: digitPush(1)
 	},
 	"2": {
-		file: "2"
+		file: "2",
+		action: digitPush(2)
 	},
 	"3": {
-		file: "3"
+		file: "3",
+		action: digitPush(3)
 	},
 	"4": {
-		file: "4"
+		file: "4",
+		action: digitPush(4)
 	},
 	"5": {
-		file: "5"
+		file: "5",
+		action: digitPush(5)
 	},
 	"6": {
-		file: "6"
+		file: "6",
+		action: digitPush(6)
 	},
 	"7": {
-		file: "7"
+		file: "7",
+		action: digitPush(7)
 	},
 	"8": {
-		file: "8"
+		file: "8",
+		action: digitPush(8)
 	},
 	"9": {
-		file: "9"
+		file: "9",
+		action: digitPush(9)
 	}
 }
 
@@ -330,6 +382,7 @@ document.getElementById("start").addEventListener("click", function () {
 	document.getElementById("stop").disabled = false;
 	document.getElementById("start").disabled = true;
 
+	board.input = document.getElementById("input").value;
 	intervalId = window.setInterval(go, delays[document.getElementById("delay").value]);
 	isRunning = true;
 });
@@ -355,10 +408,16 @@ function draw() {
 			} else {
 				context.drawImage(document.getElementById(" "), i * step, j * step, step, step);
 			}
+
 			if (board.field[i][j] in commands) {
 				context.drawImage(document.getElementById(board.field[i][j]), i * step, j * step, step, step);
+			} else {
+				//TODO some pic
 			}
 		}
 	}
+
+	document.getElementById("output").innerHTML = board.output;
+	document.getElementById("stack").innerHTML = board.stack;
 }
 draw();
