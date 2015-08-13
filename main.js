@@ -353,6 +353,7 @@ for (var command in commands) {
 var delays = [10, 50, 100, 500, 1000];
 var intervalId;
 var isRunning = false;
+var isPaused = false;
 
 canvas.addEventListener("click", function(event) {
 	if (isRunning) {
@@ -369,8 +370,12 @@ canvas.addEventListener("click", function(event) {
 });
 
 document.getElementById("delay").addEventListener("input", function(event) {
-	console.log(123);
 	document.getElementById("delayText").innerHTML = delays[event.target.value];
+
+	if (isRunning) {
+		window.clearInterval(intervalId);
+		intervalId = window.setInterval(go, delays[event.target.value]);
+	}
 });
 
 function go() {
@@ -379,21 +384,36 @@ function go() {
 }
 
 document.getElementById("start").addEventListener("click", function () {
-	document.getElementById("stop").disabled = false;
 	document.getElementById("start").disabled = true;
+	document.getElementById("pause").disabled = false;
+	document.getElementById("stop").disabled = false;
 
+	board = board.clone();
 	board.input = document.getElementById("input").value;
 	intervalId = window.setInterval(go, delays[document.getElementById("delay").value]);
 	isRunning = true;
 });
 
+document.getElementById("pause").addEventListener("click", function () {
+	if (!isPaused) {
+		isPaused = true;
+		window.clearInterval(intervalId);
+	} else {
+		isPaused = false;
+		intervalId = window.setInterval(go, delays[document.getElementById("delay").value]);
+	}
+});
+
 document.getElementById("stop").addEventListener("click", function () {
 	document.getElementById("start").disabled = false;
+	document.getElementById("pause").disabled = true;
 	document.getElementById("stop").disabled = true;
 
-	window.clearInterval(intervalId);
+	if (!isPaused) {
+		window.clearInterval(intervalId);
+	}
 	isRunning = false;
-	board = board.clone();
+	isPaused = false;
 });
 
 function draw() {
@@ -404,7 +424,7 @@ function draw() {
 	for (var i = 0; i < maxi; ++i) {
 		for (var j = 0; j < maxj; ++j) {
 			try {
-				if (isRunning && board.active.x == i && board.active.y == j) {
+				if (/*isRunning &&*/ board.active.x == i && board.active.y == j) {
 					context.drawImage(activeBackground, i * step, j * step, step, step);
 				} else {
 					context.drawImage(document.getElementById(" "), i * step, j * step, step, step);
