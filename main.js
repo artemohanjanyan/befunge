@@ -403,16 +403,20 @@ function draw() {
 
 	for (var i = 0; i < maxi; ++i) {
 		for (var j = 0; j < maxj; ++j) {
-			if (isRunning && board.active.x == i && board.active.y == j) {
-				context.drawImage(activeBackground, i * step, j * step, step, step);
-			} else {
-				context.drawImage(document.getElementById(" "), i * step, j * step, step, step);
-			}
+			try {
+				if (isRunning && board.active.x == i && board.active.y == j) {
+					context.drawImage(activeBackground, i * step, j * step, step, step);
+				} else {
+					context.drawImage(document.getElementById(" "), i * step, j * step, step, step);
+				}
 
-			if (board.field[i][j] in commands) {
-				context.drawImage(document.getElementById(board.field[i][j]), i * step, j * step, step, step);
-			} else {
-				//TODO some pic
+				if (board.field[i][j] in commands) {
+					context.drawImage(document.getElementById(board.field[i][j]), i * step, j * step, step, step);
+				} else {
+					//TODO some pic
+				}
+			} catch(err) {
+				console.log("some error at point [" + i + "; " + j + "]");
 			}
 		}
 	}
