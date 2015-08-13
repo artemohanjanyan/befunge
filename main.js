@@ -336,7 +336,7 @@ for (var command in commands) {
 		document.getElementById(c).addEventListener("click", function() {
 			console.log(commands[c].file);
 			currentCommand = c;
-			currentIcon.src = "icons/" + commands[c].file + ".png";
+			//currentIcon.src = "icons/" + commands[c].file + ".png";
 		});
 	})(command);
 }
@@ -358,6 +358,17 @@ canvas.addEventListener("click", function(event) {
 	var j = Math.floor(y / step);
 
 	board.field[i][j] = currentCommand;
+});
+
+window.addEventListener("keypress", function(event) {
+	if (isRunning) {
+		return;
+	}
+
+	var key = String.fromCharCode(event.keyCode);
+	if (key in commands) {
+		currentCommand = key;
+	}
 });
 
 document.getElementById("delay").addEventListener("input", function(event) {
@@ -434,5 +445,6 @@ function draw() {
 
 	document.getElementById("output").innerHTML = board.output;
 	document.getElementById("stack").innerHTML = board.stack;
+	currentIcon.src = "icons/" + commands[currentCommand].file + ".png";
 }
 draw();
