@@ -372,7 +372,7 @@ canvas.addEventListener("click", function(event) {
 document.getElementById("delay").addEventListener("input", function(event) {
 	document.getElementById("delayText").innerHTML = delays[event.target.value];
 
-	if (isRunning) {
+	if (isRunning && !isPaused) {
 		window.clearInterval(intervalId);
 		intervalId = window.setInterval(go, delays[event.target.value]);
 	}
