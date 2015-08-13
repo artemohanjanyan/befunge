@@ -14,14 +14,6 @@ function clearScreen() {
 	context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-//var board = [];
-//for (var i = 0; i < 32; ++i) {
-//	board[i] = [];
-//	for (var j = 0; j < 24; ++j) {
-//		board[i][j] = " ";
-//	}
-//}
-
 function Board() {
 	this.field = [];
 	for (var i = 0; i < 32; ++i) {
@@ -256,7 +248,6 @@ var commands = {
 	"&": {
 		file: "ampersand",
 		action: function(board) {
-			//TODO
 			if (board.input.length > 0) {
 				while (board.input.length > 0 && board.input.charAt(0) == ' ') {
 					board.input = board.input.slice(1);
@@ -424,7 +415,7 @@ function draw() {
 	for (var i = 0; i < maxi; ++i) {
 		for (var j = 0; j < maxj; ++j) {
 			try {
-				if (/*isRunning &&*/ board.active.x == i && board.active.y == j) {
+				if (board.active.x == i && board.active.y == j) {
 					context.drawImage(activeBackground, i * step, j * step, step, step);
 				} else {
 					context.drawImage(document.getElementById(" "), i * step, j * step, step, step);
