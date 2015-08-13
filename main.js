@@ -158,7 +158,7 @@ var commands = {
 		action: op(function(a, b) { return a / b; }, 2)
 	},
 	"%": {
-		file: "%",
+		file: "percent",
 		action: op(function(a, b) { return a % b; }, 2)
 	},
 	"!": {
@@ -171,7 +171,7 @@ var commands = {
 	},
 
 	"_": {
-		file: "_",
+		file: "underscore",
 		action: function(board) {
 			if (board.pop() != 0) {
 				commands["<"].action(board);
