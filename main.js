@@ -6,6 +6,8 @@ var currentCommand = " ";
 
 var activeBackground = new Image();
 activeBackground.src = "icons/active.png";
+var dataIcon = new Image();
+dataIcon.src = "icons/question.png";
 
 var maxx = canvas.width, maxy = canvas.height, step = 20;
 var maxi = 32, maxj = 24;
@@ -125,13 +127,13 @@ var commands = {
 			}
 		}
 	},
-	"?": {
-		file: "question",
-		action: function(board) {
-			var rand = Math.floor(Math.random() * 4);
-			commands[["<", "^", ">", "v"][rand]].action(board);
-		}
-	},
+	//"?": {
+	//	file: "question",
+	//	action: function(board) {
+	//		var rand = Math.floor(Math.random() * 4);
+	//		commands[["<", "^", ">", "v"][rand]].action(board);
+	//	}
+	//},
 
 	"+": {
 		file: "+",
@@ -182,10 +184,10 @@ var commands = {
 			}
 		}
 	},
-	"\"": {
-		file: "quote",
-		action: function() {}
-	},
+	//"\"": {
+	//	file: "quote",
+	//	action: function() {}
+	//},
 	":": {
 		file: ":",
 		action: function(board) {
@@ -434,7 +436,7 @@ function draw() {
 				if (board.field[i][j] in commands) {
 					context.drawImage(document.getElementById(board.field[i][j]), i * step, j * step, step, step);
 				} else {
-					//TODO some pic
+					context.drawImage(dataIcon, i * step, j * step, step, step);
 				}
 			} catch(err) {
 				console.log("some error at point [" + i + "; " + j + "]");
