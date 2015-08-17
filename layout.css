@@ -18,3 +18,7 @@ canvas {
 	margin-left: -640;
 	margin-top: -480;
 }
+
+#input, #stack, #position, #output {
+	font-family: "Courier New", Courier, monospace;
+}

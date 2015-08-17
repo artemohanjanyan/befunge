@@ -269,12 +269,10 @@ var commands = {
 	"~": {
 		file: "tilde",
 		action: function(board) {
-			console.log(123);
 			if (board.input.length > 0) {
 				board.push(board.input.charCodeAt(0));
 				board.input = board.input.slice(1);
 			}
-			console.log(123);
 		}
 	},
 	"@": {
