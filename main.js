@@ -9,8 +9,9 @@ activeBackground.src = "icons/active.png";
 var dataIcon = new Image();
 dataIcon.src = "icons/question.png";
 
-var maxx = canvas.width, maxy = canvas.height, step = 20;
-var maxi = 32, maxj = 24;
+//var maxx = canvas.width, maxy = canvas.height;
+var step = 20;
+var maxI = 32, maxJ = 24;
 
 function clearScreen() {
 	context.clearRect(0, 0, canvas.width, canvas.height);
@@ -28,37 +29,37 @@ function Board() {
 	this.active = {
 		x: 0,
 		y: 0
-	}
+	};
 	this.direction = {
 		x: 1,
 		y: 0
-	}
+	};
 	this.stack = [];
 
 	this.input = "";
 	this.output = "";
 }
 Board.prototype.move = function() {
-	this.active.x = (this.active.x + this.direction.x + maxi) % maxi;
-	this.active.y = (this.active.y + this.direction.y + maxj) % maxj;
-}
+	this.active.x = (this.active.x + this.direction.x + maxI) % maxI;
+	this.active.y = (this.active.y + this.direction.y + maxJ) % maxJ;
+};
 Board.prototype.push = function(x) {
 	this.stack.push(x);
-}
+};
 Board.prototype.pop = function() {
 	if (this.stack.length > 0) {
 		return this.stack.pop()
 	} else {
 		return 0;
 	}
-}
+};
 Board.prototype.clone = function() {
 	var copy = new Board();
 	for (var i = 0; i < 32; ++i) {
 		copy.field[i] = this.field[i].slice(0);
 	}
 	return copy;
-}
+};
 
 function op(f, argN) {
 	return function(board) {
@@ -268,10 +269,12 @@ var commands = {
 	"~": {
 		file: "tilde",
 		action: function(board) {
-			if (input.length > 0) {
+			console.log(123);
+			if (board.input.length > 0) {
 				board.push(board.input.charCodeAt(0));
 				board.input = board.input.slice(1);
 			}
+			console.log(123);
 		}
 	},
 	"@": {
@@ -324,12 +327,12 @@ var commands = {
 		file: "9",
 		action: digitPush(9)
 	}
-}
+};
 
 Board.prototype.go = function() {
 	commands[this.field[this.active.x][this.active.y]].action(this);
 	this.move();
-}
+};
 
 var board = new Board();
 
@@ -424,8 +427,8 @@ function draw() {
 
 	clearScreen();
 
-	for (var i = 0; i < maxi; ++i) {
-		for (var j = 0; j < maxj; ++j) {
+	for (var i = 0; i < maxI; ++i) {
+		for (var j = 0; j < maxJ; ++j) {
 			try {
 				if (board.active.x == i && board.active.y == j) {
 					context.drawImage(activeBackground, i * step, j * step, step, step);
