@@ -446,7 +446,7 @@ function draw() {
 	}
 
 	document.getElementById("output").innerHTML = board.output;
-	document.getElementById("stack").innerHTML = board.stack;
+	document.getElementById("stack").innerHTML = "[" + board.stack.join(", ") + "]";
 	currentIcon.src = "icons/" + commands[currentCommand].file + ".png";
 }
 draw();
