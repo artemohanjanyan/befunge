@@ -1,3 +1,5 @@
+console.log("10 push-ups");
+
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 
@@ -332,12 +334,73 @@ Board.prototype.go = function() {
 	this.move();
 };
 
+var commandLimit = 40000; // ???
+function runTest(board, input, correctOutput) {
+	var testingBoard = board.clone();
+	testingBoard.input = input.slice(0);
+	var i = 0;
+	while (i < commandLimit &&
+			testingBoard.field[testingBoard.active.x][testingBoard.active.y] != "@") {
+		testingBoard.go();
+		++i;
+	}
+
+	return testingBoard.field[testingBoard.active.x][testingBoard.active.y] == "@" &&
+			testingBoard.output == correctOutput;
+}
+
+function test(board, correct, inputs) {
+	for (var i = 0; i < inputs.length; ++i) {
+		var input = inputs[i];
+		if (!runTest(board, input, correct(input))) {
+			alert("not OK :(");
+			return;
+		}
+	}
+
+	alert("OK");
+}
+
+function correctApB(input) {
+	var a = parseInt(input);
+	var b = parseInt(input.slice(a.toString().length + 1));
+	return a + b;
+}
+var testsApB = (function() {
+	var tests = ["2 2", "123 321", "10 100"];
+	for (var i = 0; i < 10; ++i) {
+		var a = Math.floor(Math.random() * 100);
+		var b = Math.floor(Math.random() * 100);
+		tests.push(a.toString() + " " + b.toString());
+	}
+	return tests;
+})();
+function correctReverse(input) {
+	return input.split("").reverse().join("");
+}
+var testsReverse = (function() {
+	var tests = ["2 2", "123 321", "", "hello, world", "azaza", "js sucks"];
+	for (var i = 0; i < 10; ++i) {
+		tests[i] = tests[i] + "0";
+	}
+	return tests;
+})();
+
+var tasks = [
+	[correctApB, testsApB],
+	[correctReverse, testsReverse]
+];
+
+
+
+
+
 var board = new Board();
 
 for (var command in commands) {
 	(function(c) {
 		document.getElementById(c).addEventListener("click", function() {
-			console.log(commands[c].file);
+			//console.log(commands[c].file);
 			currentCommand = c;
 		});
 	})(command);
@@ -419,6 +482,14 @@ document.getElementById("stop").addEventListener("click", function () {
 	isRunning = false;
 	isPaused = false;
 });
+
+for (var taskI = 0; taskI < tasks.length; ++taskI) {
+	(function(i) {
+		document.getElementById("task " + (i + 1)).addEventListener("click", function() {
+			test(board, tasks[i][0], tasks[i][1]);
+		});
+	})(taskI);
+}
 
 function draw() {
 	requestAnimationFrame(draw);
